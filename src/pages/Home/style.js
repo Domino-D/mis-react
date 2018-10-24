@@ -4,7 +4,11 @@ import logoimgurl from '../../statics/images/fisheeplogo.png'
 
 export const HeaderStyle = {
   background: '#fff',
-  height: '40px'
+  height: '40px',
+  lineHeight: '40px',
+  fontWeight: 700,
+  color: '#ADADAD',
+  textDecoration: 'underline'
 }
 
 export const ContentStyle = {

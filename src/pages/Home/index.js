@@ -17,19 +17,19 @@ const { Header, Content, Footer, Sider } = Layout
 
 class Home extends Component {
   render() {
+    const { authority } = this.props
+    
     return (
       <Layout>
         <Sider
           breakpoint="lg"
           collapsedWidth="0"
           theme='light'
-          // onBreakpoint={(broken) => { console.log(broken); }}
-          // onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
         >
           <Nav />
         </Sider>
         <Layout>
-          <Header style={HeaderStyle} />
+          <Header style={HeaderStyle}>{authority} Authority</Header>
           <Content style={ContentStyle}>
             <Router history={this.props.history}>
               <Fragment>
@@ -51,4 +51,10 @@ class Home extends Component {
   }
 }
 
-export default connect(null, null)(Home)
+const mapState = (state) => {
+  return {
+    authority: state.home.authority ? 'ROOT' : 'ADMIN'
+  }
+}
+
+export default connect(mapState, null)(Home)

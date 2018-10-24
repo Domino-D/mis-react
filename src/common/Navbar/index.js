@@ -1,44 +1,43 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
 import { LogoTitle } from './style'
 
 const SubMenu = Menu.SubMenu
 
 class Nav extends Component {
-  state = {
-    collapsed: false,
-  }
-
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    })
-  }
   render() {
     return (
       <div>
         <LogoTitle>MIS</LogoTitle>
         <Menu
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['list']}
           mode="inline"
-          inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="1">
-            <Icon type="ordered-list" />
-            <span>List</span>
+          <Menu.Item key="list">
+            <Link to="/index">
+              <Icon type="ordered-list" />
+              <span>List</span>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="form" />
-            <span>Details</span>
+          <Menu.Item key="details">
+            <Link to="/index/details">
+              <Icon type="form" />
+              <span>Details</span>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="3">
-            <Icon type="team" />
-            <span>Contributors</span>
+          <Menu.Item key="cont">
+            <Link to="/index/cont">
+              <Icon type="team" />
+              <span>Contributors</span>
+            </Link>
           </Menu.Item>
           <SubMenu key="sub1" title={<span><Icon type="user" /><span>User</span></span>}>
             <Menu.Item key="5">
-              <Icon type="logout" />
-              <span>Logout</span>
+              <Link to="/">
+                <Icon type="logout" />
+                <span>Logout</span>
+              </Link>
             </Menu.Item>
           </SubMenu>
         </Menu>
@@ -46,5 +45,6 @@ class Nav extends Component {
     )
   }
 }
+
 
 export default Nav

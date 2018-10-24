@@ -1,0 +1,5 @@
+export const HANDLE_ACCOUNT_INPUT = 'handle_account_input'
+export const HANDLE_PASSWORD_INPUT = 'handle_password_input'
+export const HANDLE_LOGIN = 'handle_login'
+export const HANDLE_LOGIN_ERROR = 'handle_login_error'
+export const HANDLE_SERVER_ERROR = 'handle_server_error'

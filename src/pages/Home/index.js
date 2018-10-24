@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { Router, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Layout } from 'antd'
-import Nav from '../Navbar'
-import List from '../List'
-import Details from '../Details'
-import Cont from '../Contributors'
+import Nav from '../../common/Navbar'
+import List from './components/List'
+import Details from './components/Details'
+import Cont from './components/Contributors'
 import {
   HeaderStyle,
   ContentStyle,
@@ -50,4 +51,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default connect(null, null)(Home)

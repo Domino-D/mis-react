@@ -9,24 +9,26 @@ import {
 } from './style'
 
 class List extends Component {
-  state = {
-    filteredInfo: null
-  }
-
   handleChange = (pagination, filters) => {
     console.log('Various parameters', pagination, filters)
-    this.setState({
-      filteredInfo: filters
-    })
+    this.props._handleChange(filters)
   }
 
-  clearFilters = () => {
-    this.setState({ filteredInfo: null })
+  _onFolter = (key) => {
+    if (key === 'material') {
+      return (value, record) => record[`${key}`].toString().includes(value)
+    } else {
+      return (value, record) => record[`${key}`].includes(value)
+    }
+  }
+
+  _filteredValue = (key) => {
+    let { filteredInfo } = this.props
+    filteredInfo = filteredInfo || {}
+    return filteredInfo[`${key}`] || null
   }
 
   render() {
-    let { filteredInfo } = this.state
-    filteredInfo = filteredInfo || {}
 
     const columns = [
       {
@@ -38,9 +40,9 @@ class List extends Component {
           { text: 'Jim', value: 'Jim' },
           { text: 'John', value: 'John' }
         ],
-        filteredValue: filteredInfo.original || null,
-        onFilter: (value, record) => record.original.includes(value)
-      }, 
+        filteredValue: this._filteredValue('original'),
+        onFilter: this._onFolter('original')
+      },
       {
         title: 'Material No.',
         dataIndex: 'material',
@@ -49,9 +51,9 @@ class List extends Component {
           { text: 32, value: 32 },
           { text: 42, value: 42 }
         ],
-        filteredValue: filteredInfo.material || null,
-        onFilter: (value, record) => record.material.toString().includes(value)
-      }, 
+        filteredValue: this._filteredValue('material'),
+        onFilter: this._onFolter('material')
+      },
       {
         title: 'Description',
         dataIndex: 'description',
@@ -59,8 +61,8 @@ class List extends Component {
         filters: [
           { text: 'boy', value: 'boy' }
         ],
-        filteredValue: filteredInfo.description || null,
-        onFilter: (value, record) => record.description.includes(value)
+        filteredValue: this._filteredValue('description'),
+        onFilter: this._onFolter('description')
       },
       {
         title: 'Vandor',
@@ -69,8 +71,8 @@ class List extends Component {
         filters: [
           { text: 'shop', value: 'shop' }
         ],
-        filteredValue: filteredInfo.vandor || null,
-        onFilter: (value, record) => record.vandor.includes(value)
+        filteredValue: this._filteredValue('vandor'),
+        onFilter: this._onFolter('vandor')
       },
       {
         title: 'Contributor',
@@ -79,8 +81,8 @@ class List extends Component {
         filters: [
           { text: 'man', value: 'man' }
         ],
-        filteredValue: filteredInfo.contributor || null,
-        onFilter: (value, record) => record.contributor.includes(value)
+        filteredValue: this._filteredValue('contributor'),
+        onFilter: this._onFolter('contributor')
       },
       {
         title: 'Date',
@@ -89,8 +91,8 @@ class List extends Component {
         filters: [
           { text: '10-25', value: '10-25' }
         ],
-        filteredValue: filteredInfo.creation || null,
-        onFilter: (value, record) => record.creation.includes(value)
+        filteredValue: this._filteredValue('creation'),
+        onFilter: this._onFolter('creation')
       },
       {
         title: 'Status',
@@ -100,17 +102,17 @@ class List extends Component {
           { text: 'active', value: 'active' },
           { text: 'closed', value: 'closed' }
         ],
-        filteredValue: filteredInfo.status || null,
-        onFilter: (value, record) => record.status.includes(value)
+        filteredValue: this._filteredValue('status'),
+        onFilter: this._onFolter('status')
       }
     ]
 
-    const { homeList } = this.props
+    const { homeList, _clearFilters } = this.props
 
     return (
       <ContentList>
         <div style={TableStyle}>
-          <Button type="primary" size="small" style={ButtonStyle} onClick={this.clearFilters}>Clear all filters</Button>
+          <Button type="primary" size="small" style={ButtonStyle} onClick={_clearFilters}>Clear all filters</Button>
         </div>
         <Table columns={columns} dataSource={homeList} onChange={this.handleChange} />
       </ContentList>
@@ -119,12 +121,22 @@ class List extends Component {
 }
 
 const mapState = (state) => ({
+  filteredInfo: state.list.filteredInfo,
+  filters: state.list.filters,
   homeList: state.list.homeList
 })
 
 const mapDispatch = (dispatch) => ({
   loadHomeList() {
     dispatch(createAction.preloadList())
+  },
+
+  _handleChange(filters) {
+    dispatch(createAction.changeFilteredInfo(filters))
+  },
+
+  _clearFilters() {
+    dispatch(createAction.clearFilters())
   }
 })
 

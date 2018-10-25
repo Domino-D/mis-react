@@ -1,6 +1,8 @@
 import * as actionType from './actiontype'
 
 const defaultState = {
+  filteredInfo: null,
+  filters: [],
   homeList: [
     {
       key: '1',
@@ -42,6 +44,21 @@ export default (state = defaultState, action) => {
     case actionType.HANDLE_LOAD_LIST: {
       const newState = copyState(state)
       newState.homeList = action.list
+      return newState
+    }
+    case actionType.HANDLE_FILTEREDINFO_CHANGE: {
+      const newState = copyState(state)
+      newState.filteredInfo = action.filters
+      return newState
+    }
+    case actionType.CLEAR_FILTERS: {
+      const newState = copyState(state)
+      newState.filteredInfo = null
+      return newState
+    }
+    case actionType.HANDLE_FILTERS: {
+      const newState = copyState(state)
+      newState.filters = action.filters
       return newState
     }
     default:

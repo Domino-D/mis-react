@@ -1,0 +1,1 @@
+export const HANDLE_AUTHORITY = 'handle_authority'

@@ -7,27 +7,31 @@ const defaultState = {
   errormsg: ''
 }
 
+const copyState = (state) => (
+  JSON.parse(JSON.stringify(state))
+)
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case actionType.HANDLE_ACCOUNT_INPUT: {
-      const newState = JSON.parse(JSON.stringify(state))
+      const newState = copyState(state)
       newState.account = action.account
       newState.errormsg = ''
       return newState
     }
     case actionType.HANDLE_PASSWORD_INPUT: {
-      const newState = JSON.parse(JSON.stringify(state))
+      const newState = copyState(state)
       newState.password = action.password
       newState.errormsg = ''
       return newState
     }
     case actionType.HANDLE_LOGIN: {
-      const newState = JSON.parse(JSON.stringify(state))
+      const newState = copyState(state)
       newState.isLogin = true
       return newState
     }
     case actionType.HANDLE_LOGIN_ERROR: {
-      const newState = JSON.parse(JSON.stringify(state))
+      const newState = copyState(state)
       newState.errormsg = 'Invalid Username or Password!'
       newState.password = ''
       return newState

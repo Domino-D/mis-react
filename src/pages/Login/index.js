@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { createAction } from './store'
 import { Form, Icon, Input, Button, Alert } from 'antd';
 import {
@@ -13,12 +14,13 @@ const FormItem = Form.Item;
 
 class Login extends Component {
   render() {
-    const { account, password, errormsg, handleAccountInput, handlePasswordInput, handleSubmit } = this.props
+    const { account, password, isLogin, errormsg, handleAccountInput, handlePasswordInput, handleSubmit } = this.props
 
     return (
       <SignIn>
         <SignInTitle>Sign in to MIS</SignInTitle>
         {errormsg ? <Alert message={errormsg} type="warning" showIcon style={AlertStyle}/> : null}
+        {isLogin ? <Redirect to="/index"/> : null}
         <Form>
           <FormItem>
             <Input prefix={<Icon type="user" style={InputStyle} />} placeholder="Username" onChange={(e) => { handleAccountInput(e) }} value={account} />
@@ -40,6 +42,7 @@ class Login extends Component {
 const mapState = (state) => ({
   account: state.login.account,
   password: state.login.password,
+  isLogin: state.login.isLogin,
   errormsg: state.login.errormsg
 })
 

@@ -7,7 +7,7 @@ export const HeaderStyle = {
   height: '40px',
   lineHeight: '40px',
   fontWeight: 700,
-  color: '#ADADAD',
+  color: '#6D6D6D',
   textDecoration: 'underline'
 }
 

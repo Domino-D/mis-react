@@ -1,4 +1,5 @@
 import * as actionType from './actiontype'
+import { createAction as home_createAction } from '../../Home/store'
 import axios from 'axios'
 
 export const accountInput = (account) => ({
@@ -23,19 +24,25 @@ export const serverError = () => ({
   type: actionType.HANDLE_SERVER_ERROR
 })
 
-export const preLogin = (account, password) => {
-  return (dispatch) => {
+export const preLogin = (account, password) => (
+  (dispatch) => {
     const formData = {
       email: account,
       pwd: password
     }
     axios.post('/session', formData)
       .then((res) => {
-        console.log('000')
-        res[0] ? dispatch(login()) : dispatch(loginError())
+        const data = res.data[0]
+        if (data) {
+          dispatch(login())
+          data.identity === "root" ?
+            dispatch(home_createAction.authority(1)) :
+            dispatch(home_createAction.authority(0))
+        } else {
+          dispatch(loginError())
+        }
       })
       .catch(() => {
         dispatch(serverError())
       })
-  }
-}
+  })

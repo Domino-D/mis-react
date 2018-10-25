@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { createAction } from './store'
 import { Layout } from 'antd'
 import Nav from '../../common/Navbar'
 import List from './components/List'
@@ -18,7 +19,7 @@ const { Header, Content, Footer, Sider } = Layout
 class Home extends Component {
   render() {
     const { authority } = this.props
-    
+
     return (
       <Layout>
         <Sider
@@ -49,12 +50,25 @@ class Home extends Component {
       </Layout>
     )
   }
-}
 
-const mapState = (state) => {
-  return {
-    authority: state.home.authority ? 'ROOT' : 'ADMIN'
+  componentDidMount() {
+    // const { isLogin, history } = this.props
+    // if(!isLogin) {
+    //   history.push('/')
+    // }
   }
 }
 
-export default connect(mapState, null)(Home)
+const mapState = (state) => ({
+  authority: state.home.authority ? 'ROOT' : 'ADMIN',
+  isLogin: state.login.isLogin,
+  homeList: state.home.homeList
+})
+
+const mapDispatch = (dispatch) => ({
+  loadHomeList() {
+    dispatch(createAction.preloadList())
+  }
+})
+
+export default connect(mapState, mapDispatch)(Home)

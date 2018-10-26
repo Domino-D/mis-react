@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAction } from './store'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import {
   TableStyle,
   ButtonStyle,
@@ -29,17 +29,14 @@ class List extends Component {
   }
 
   render() {
+    const { homeList, filters, _clearFilters } = this.props
 
     const columns = [
       {
         title: 'Original No.',
         dataIndex: 'original',
         key: 'original',
-        filters: [
-          { text: 'Joe', value: 'Joe' },
-          { text: 'Jim', value: 'Jim' },
-          { text: 'John', value: 'John' }
-        ],
+        filters: filters[0] || [],
         filteredValue: this._filteredValue('original'),
         onFilter: this._onFolter('original')
       },
@@ -47,10 +44,7 @@ class List extends Component {
         title: 'Material No.',
         dataIndex: 'material',
         key: 'material',
-        filters: [
-          { text: 32, value: 32 },
-          { text: 42, value: 42 }
-        ],
+        filters: filters[1] || [],
         filteredValue: this._filteredValue('material'),
         onFilter: this._onFolter('material')
       },
@@ -58,9 +52,7 @@ class List extends Component {
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
-        filters: [
-          { text: 'boy', value: 'boy' }
-        ],
+        filters: filters[2] || [],
         filteredValue: this._filteredValue('description'),
         onFilter: this._onFolter('description')
       },
@@ -68,9 +60,7 @@ class List extends Component {
         title: 'Vandor',
         dataIndex: 'vandor',
         key: 'vandor',
-        filters: [
-          { text: 'shop', value: 'shop' }
-        ],
+        filters: filters[3] || [],
         filteredValue: this._filteredValue('vandor'),
         onFilter: this._onFolter('vandor')
       },
@@ -78,9 +68,7 @@ class List extends Component {
         title: 'Contributor',
         dataIndex: 'contributor',
         key: 'contributor',
-        filters: [
-          { text: 'man', value: 'man' }
-        ],
+        filters: filters[4] || [],
         filteredValue: this._filteredValue('contributor'),
         onFilter: this._onFolter('contributor')
       },
@@ -88,9 +76,7 @@ class List extends Component {
         title: 'Date',
         dataIndex: 'creation',
         key: 'creation',
-        filters: [
-          { text: '10-25', value: '10-25' }
-        ],
+        filters: filters[5] || [],
         filteredValue: this._filteredValue('creation'),
         onFilter: this._onFolter('creation')
       },
@@ -107,8 +93,6 @@ class List extends Component {
       }
     ]
 
-    const { homeList, _clearFilters } = this.props
-
     return (
       <ContentList>
         <div style={TableStyle}>
@@ -118,12 +102,24 @@ class List extends Component {
       </ContentList>
     );
   }
+
+  componentDidMount() {
+    const {errorMsg, loadHomeList, showErrorMsg} = this.props
+    loadHomeList()
+    if(errorMsg) showErrorMsg(errorMsg)
+  }
+
+  componentDidUpdate() {
+    const {errorMsg, showErrorMsg} = this.props
+    if(errorMsg) showErrorMsg(errorMsg)
+  }
 }
 
 const mapState = (state) => ({
   filteredInfo: state.list.filteredInfo,
   filters: state.list.filters,
-  homeList: state.list.homeList
+  homeList: state.list.homeList,
+  errorMsg: state.list.errorMsg
 })
 
 const mapDispatch = (dispatch) => ({
@@ -137,6 +133,10 @@ const mapDispatch = (dispatch) => ({
 
   _clearFilters() {
     dispatch(createAction.clearFilters())
+  },
+
+  showErrorMsg(errorMsg) {
+    message.warning(errorMsg)
   }
 })
 

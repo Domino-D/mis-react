@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { createAction } from './store'
-import { Form, Icon, Input, Button, Alert } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import {
   InputStyle,
-  AlertStyle,
   SignIn,
   SignInTitle,
 } from './style'
@@ -14,28 +13,32 @@ const FormItem = Form.Item;
 
 class Login extends Component {
   render() {
-    const { account, password, isLogin, errormsg, handleAccountInput, handlePasswordInput, handleSubmit } = this.props
+    const { account, password, isLogin, handleAccountInput, handlePasswordInput, handleSubmit, debounce } = this.props
 
     return (
       <SignIn>
         <SignInTitle>Sign in to MIS</SignInTitle>
-        {errormsg ? <Alert message={errormsg} type="warning" showIcon style={AlertStyle}/> : null}
-        {isLogin ? <Redirect to="/index"/> : null}
+        {isLogin ? <Redirect to="/index" /> : null}
         <Form>
           <FormItem>
-            <Input prefix={<Icon type="user" style={InputStyle} />} placeholder="Username" onChange={(e) => { handleAccountInput(e) }} value={account} />
+            <Input prefix={<Icon type="user" style={InputStyle} />} placeholder="Username" onChange={(e) => { handleAccountInput(e) }} value={account} required />
           </FormItem>
           <FormItem>
-            <Input prefix={<Icon type="lock" style={InputStyle} />} type="password" placeholder="Password" onChange={(e) => { handlePasswordInput(e) }} value={password} />
+            <Input prefix={<Icon type="lock" style={InputStyle} />} type="password" placeholder="Password" onChange={(e) => { handlePasswordInput(e) }} value={password} required />
           </FormItem>
           <FormItem>
-            <Button type="primary" onClick={() => { handleSubmit(account, password) }}>
+            <Button type="primary" onClick={debounce(handleSubmit, account, password)}>
               <strong>Log in</strong>
             </Button>
           </FormItem>
         </Form>
       </SignIn>
     )
+  }
+
+  componentDidUpdate() {
+    const { errormsg, showErrorMsg } = this.props
+    if (errormsg) showErrorMsg(errormsg)
   }
 }
 
@@ -59,6 +62,20 @@ const mapDispatch = (dispatch) => ({
 
   handleSubmit(account, password) {
     dispatch(createAction.preLogin(account, password))
+  },
+
+  debounce(func, a, p) {
+    let timer = null
+    return function () {
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        func.apply(this, [a, p])
+      }, 500)
+    }
+  },
+
+  showErrorMsg(errorMsg) {
+    message.warning(errorMsg)
   }
 })
 

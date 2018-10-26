@@ -4,10 +4,6 @@ export const InputStyle = {
   color: 'rgba(0,0,0,.25)'
 }
 
-export const AlertStyle = {
-  marginBottom: '50px'
-}
-
 export const SignIn = styled.div`
   min-width: 200px;
   width: 300px;

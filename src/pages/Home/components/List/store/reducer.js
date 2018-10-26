@@ -6,33 +6,16 @@ const defaultState = {
   homeList: [
     {
       key: '1',
-      original: 'John Brown',
-      material: 32,
-      description: 'boy',
-      vandor: 'shop',
-      contributor: 'man',
-      creation: '10-25',
-      status: 'active'
-    }, {
-      key: '2',
-      original: 'Jim Green',
-      material: 42,
-      description: 'boy',
-      vandor: 'shop',
-      contributor: 'man',
-      creation: '10-25',
-      status: 'active'
-    }, {
-      key: '3',
-      original: 'Joe Black',
-      material: 32,
-      description: 'boy',
-      vandor: 'shop',
-      contributor: 'man',
-      creation: '10-25',
-      status: 'active'
+      original: 'Original Number',
+      material: 'Characteristic Number',
+      description: 'Descriptions',
+      vandor: 'Manufacturer',
+      contributor: 'Who commit this item',
+      creation: 'Commit time',
+      status: 'Active / Closed'
     }
-  ]
+  ],
+  errorMsg: ''
 }
 
 const copyState = (state) => (
@@ -59,6 +42,11 @@ export default (state = defaultState, action) => {
     case actionType.HANDLE_FILTERS: {
       const newState = copyState(state)
       newState.filters = action.filters
+      return newState
+    }
+    case actionType.HANDLE_ERROR: {
+      const newState = copyState(state)
+      newState.errorMsg = 'Something wrong with server or net connection!'
       return newState
     }
     default:

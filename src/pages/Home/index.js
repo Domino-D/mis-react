@@ -26,6 +26,7 @@ class Home extends Component {
           breakpoint="lg"
           collapsedWidth="0"
           theme='light'
+          style={{zIndex: '1'}}
         >
           <Nav />
         </Sider>

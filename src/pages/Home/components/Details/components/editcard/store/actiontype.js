@@ -1,0 +1,5 @@
+export const HANDLE_DATA_LOAD = 'handle_data_load'
+export const HANDLE_DATA_CHANGE = 'handle_data_change'
+export const HANDLE_EDITINGKEY_CHANGE = 'handle_edtingkey_change'
+export const DRAWER_TRIGGER = 'drawer_trigger'
+export const SELECT_ITEM = 'select_item'

@@ -11,29 +11,29 @@ class Nav extends Component {
       <div>
         <LogoTitle>MIS</LogoTitle>
         <Menu
-          defaultSelectedKeys={['list']}
+          defaultSelectedKeys={['0']}
           mode="inline"
         >
-          <Menu.Item key="list">
+          <Menu.Item key="0">
             <Link to="/index">
               <Icon type="ordered-list" />
               <span>List</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="details">
+          <Menu.Item key="1">
             <Link to="/index/details">
               <Icon type="form" />
               <span>Details</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="cont">
+          <Menu.Item key="2">
             <Link to="/index/cont">
               <Icon type="team" />
               <span>Contributors</span>
             </Link>
           </Menu.Item>
-          <SubMenu key="sub1" title={<span><Icon type="user" /><span>User</span></span>}>
-            <Menu.Item key="5">
+          <SubMenu key="3" title={<span><Icon type="user" /><span>User</span></span>}>
+            <Menu.Item key="4">
               <Link to="/">
                 <Icon type="logout" />
                 <span>Logout</span>

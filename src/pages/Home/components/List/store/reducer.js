@@ -49,6 +49,11 @@ export default (state = defaultState, action) => {
       newState.errorMsg = 'Something wrong with server or net connection!'
       return newState
     }
+    case actionType.CLEAR_ERROR: {
+      const newState = copyState(state)
+      newState.errorMsg = ''
+      return newState
+    }
     default:
       return state
   }

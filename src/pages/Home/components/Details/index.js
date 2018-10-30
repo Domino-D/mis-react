@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createAction as navCreateAction } from '../../../../common/Navbar/store'
 import { Tabs } from 'antd'
 import EditCard from './components/editcard'
 import CreateCard from './components/createcard'
@@ -19,6 +21,22 @@ class Details extends Component {
       </Tabs>
     )
   }
+
+  componentDidMount() {
+    const { changeDefaultKey } = this.props
+    changeDefaultKey()
+  }
+
+  componentWillUpdate() {
+    const { changeDefaultKey } = this.props
+    changeDefaultKey()
+  }
 }
 
-export default Details
+const mapDispatch = (dispatch) => ({
+  changeDefaultKey() {
+    dispatch(navCreateAction.changeDefaultKey(["1"]))
+  }
+})
+
+export default connect(null, mapDispatch)(Details)

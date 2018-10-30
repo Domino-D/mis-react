@@ -94,7 +94,7 @@ class EditCard extends Component {
         dataIndex: 'operation',
         render: (text, record) => {
           const editable = this.isEditing(record)
-          const { data, changeEditingKey, drawerShow } = this.props
+          const { data, changeEditingKey, drawerShow, deleteItem } = this.props
           return (
             <div>
               {editable ? (
@@ -138,7 +138,7 @@ class EditCard extends Component {
                     </Button>
                     <Popconfirm
                       title="Sure to delete this item?"
-                    // onConfirm={}
+                      onConfirm={() => deleteItem(record.key)}
                     >
                       <Button size="small" type="danger" style={buttonStyle}>
                         <Icon type="delete" theme="filled" />
@@ -172,9 +172,9 @@ class EditCard extends Component {
           ...item,
           ...row
         })
-        changeData(newData)
+        changeData(newData[index])
       } else {
-        message.warning('Edited item is not exited. Please create a new item, if necessary.')
+        message.warning('Not exited item. Please create a new item, if necessary.')
       }
       changeEditingKey('')
     })
@@ -217,14 +217,30 @@ class EditCard extends Component {
       </Fragment>
     )
   }
+
+  componentDidMount() {
+    const { loadData, errorMsg } = this.props
+    loadData()
+    if (errorMsg) message.warning(errorMsg)
+  }
+
+  componentDidUpdate() {
+    const { errorMsg } = this.props
+    if (errorMsg) message.warning(errorMsg)
+  }
 }
 
 const mapState = (state) => ({
   data: state.edit.data,
-  editingKey: state.edit.editingKey
+  editingKey: state.edit.editingKey,
+  errorMsg: state.edit.errorMsg
 })
 
 const mapDispatch = (dispatch) => ({
+  loadData() {
+    dispatch(createAction.preloadData())
+  },
+
   changeData(data) {
     dispatch(createAction.changeData(data))
   },
@@ -235,6 +251,10 @@ const mapDispatch = (dispatch) => ({
 
   drawerShow(key, data) {
     dispatch(createAction.selectItem(key, data))
+  },
+
+  deleteItem(_id) {
+    dispatch(createAction.deleteItem(_id))
   }
 })
 

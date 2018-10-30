@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Menu, Icon } from 'antd'
 import { LogoTitle } from './style'
 
@@ -7,11 +8,13 @@ const SubMenu = Menu.SubMenu
 
 class Nav extends Component {
   render() {
+    const { defaultKey } = this.props
+
     return (
       <div>
         <LogoTitle>MIS</LogoTitle>
         <Menu
-          defaultSelectedKeys={['0']}
+          defaultSelectedKeys={defaultKey}
           mode="inline"
         >
           <Menu.Item key="0">
@@ -46,5 +49,8 @@ class Nav extends Component {
   }
 }
 
+const mapState = (state) => ({
+  defaultKey: state.nav.defaultKey
+})
 
-export default Nav
+export default connect(mapState, null)(Nav)

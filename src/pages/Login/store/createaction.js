@@ -24,6 +24,10 @@ export const serverError = () => ({
   type: actionType.HANDLE_SERVER_ERROR
 })
 
+export const clearError = () => ({
+  type: actionType.CLEAR_ERROR
+})
+
 export const preLogin = (account, password) => (
   (dispatch) => {
     const formData = {
@@ -38,6 +42,7 @@ export const preLogin = (account, password) => (
           data.identity === "root" ?
             dispatch(home_createAction.authority(1)) :
             dispatch(home_createAction.authority(0))
+          dispatch(clearError())
         } else {
           dispatch(loginError())
         }

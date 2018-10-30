@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAction } from './store'
+import { createAction as navCreateAction } from '../../../../common/Navbar/store'
 import { Table, Button, message } from 'antd'
 import {
   TableStyle,
@@ -10,7 +11,7 @@ import {
 
 class List extends Component {
   handleChange = (pagination, filters) => {
-    console.log('Various parameters', pagination, filters)
+    // console.log('Various parameters', pagination, filters)
     this.props._handleChange(filters)
   }
 
@@ -104,13 +105,15 @@ class List extends Component {
   }
 
   componentDidMount() {
-    const {errorMsg, loadHomeList, showErrorMsg} = this.props
+    const {errorMsg, loadHomeList, changeDefaultKey, showErrorMsg} = this.props
     loadHomeList()
+    changeDefaultKey()
     if(errorMsg) showErrorMsg(errorMsg)
   }
 
   componentDidUpdate() {
-    const {errorMsg, showErrorMsg} = this.props
+    const {errorMsg, showErrorMsg, changeDefaultKey} = this.props
+    changeDefaultKey()
     if(errorMsg) showErrorMsg(errorMsg)
   }
 }
@@ -137,6 +140,10 @@ const mapDispatch = (dispatch) => ({
 
   showErrorMsg(errorMsg) {
     message.warning(errorMsg)
+  },
+
+  changeDefaultKey() {
+    dispatch(navCreateAction.changeDefaultKey(["0"]))
   }
 })
 

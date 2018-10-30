@@ -4,22 +4,16 @@ const defaultState = {
   data: [
     {
       key: '0',
-      original: `Edrward 0`,
-      material: 32,
-      description: `London Park no. 0`,
-      vandor: 'anchor'
-    },
-    {
-      key: '1',
-      original: `Edrward 1`,
-      material: 32,
-      description: `London Park no. 1`,
-      vandor: 'anchor'
+      original: 'Original No.',
+      material: 'Material No.',
+      description: 'Item Descriptions',
+      vandor: 'Manufacturer'
     }
   ],
   editingKey: '',
   drawerShow: false,
-  selectedItem: {}
+  selectedItem: {},
+  errorMsg: ''
 }
 
 const copyState = (state) => (
@@ -29,11 +23,6 @@ const copyState = (state) => (
 export default (state = defaultState, action) => {
   switch (action.type) {
     case actionType.HANDLE_DATA_LOAD: {
-      const newState = copyState(state)
-      newState.data = action.data
-      return newState
-    }
-    case actionType.HANDLE_DATA_CHANGE: {
       const newState = copyState(state)
       newState.data = action.data
       return newState
@@ -51,6 +40,16 @@ export default (state = defaultState, action) => {
     case actionType.SELECT_ITEM: {
       const newState = copyState(state)
       newState.selectedItem = action.obj
+      return newState
+    }
+    case actionType.HANDLE_ERROR: {
+      const newState = copyState(state)
+      newState.errorMsg = 'Something wrong with server or net connection!'
+      return newState
+    }
+    case actionType.CLEAR_ERROR: {
+      const newState = copyState(state)
+      newState.errorMsg = ''
       return newState
     }
     default:

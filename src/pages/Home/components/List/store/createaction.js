@@ -24,6 +24,10 @@ export const handleError = () => ({
   type: actionType.HANDLE_ERROR
 })
 
+export const clearError = () => ({
+  type: actionType.CLEAR_ERROR
+})
+
 export const preloadList = () => (
   (dispatch) => {
     axios.get('/partsdata')
@@ -31,6 +35,7 @@ export const preloadList = () => (
         const data = toChangeKeyAndValue(res.data)
         dispatch(loadList(data))
         dispatch(handleFilters(toFilters(data)))
+        dispatch(clearError())
       })
       .catch((err) => {
         dispatch(handleError())

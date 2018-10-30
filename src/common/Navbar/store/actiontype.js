@@ -1,0 +1,1 @@
+export const HANDLE_DEFAULTKEY_CHANGE = 'handle_defaultkey_change'

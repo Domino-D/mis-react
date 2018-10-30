@@ -42,6 +42,11 @@ export default (state = defaultState, action) => {
       newState.password = ''
       return newState
     }
+    case actionType.CLEAR_ERROR: {
+      const newState = JSON.parse(JSON.stringify(state))
+      newState.errormsg = ''
+      return newState
+    }
     default:
       return state
   }

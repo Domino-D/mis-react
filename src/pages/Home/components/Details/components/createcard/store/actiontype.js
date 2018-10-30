@@ -1,0 +1,7 @@
+export const HANDLE_INPUT_ORIGINAL = 'handle_input_original'
+export const HANDLE_INPUT_MATERIAL = 'handle_input_material'
+export const HANDLE_INPUT_DESCRIPTION = 'handle_input_description'
+export const HANDLE_INPUT_VANDOR = 'handle_input_vandor'
+export const SET_CREATED = 'set_created'
+export const HANDLE_CREATE_ERROR = 'handle_create_error'
+export const RESET_NEW_DATA = 'reset_new_data'

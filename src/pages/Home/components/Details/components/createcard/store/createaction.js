@@ -43,7 +43,8 @@ export const addNewData = (data) => (
         dispatch(resetNewData())
       })
       .catch(function (err) {
-        const msg = 'Failed to create new data.'
+        const msg = 'Failed to create new data. It may be existed.'
         dispatch(createError(msg))
+        dispatch(resetNewData())
       })
   })

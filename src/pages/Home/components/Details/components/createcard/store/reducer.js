@@ -15,7 +15,7 @@ const copyState = (state) => (
   JSON.parse(JSON.stringify(state))
 )
 
-export const reducer = (state = defaultState, action) => {
+export default (state = defaultState, action) => {
   switch (action.type) {
     case actionType.HANDLE_INPUT_ORIGINAL: {
       const newState = copyState(state)

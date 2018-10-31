@@ -5,6 +5,7 @@ import nav_reducer from '../common/Navbar/store/reducer'
 import list_reducer from '../pages/Home/components/List/store/reducer'
 import edit_reducer from '../pages/Home/components/Details/components/editcard/store/reducer'
 import create_reducer from '../pages/Home/components/Details/components/createcard/store/reducer'
+import cont_reducer from '../pages/Home/components/Contributors/store/reducer'
 
 export default combineReducers({
   home: home_reducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   nav: nav_reducer,
   list: list_reducer,
   edit: edit_reducer,
-  create: create_reducer
+  create: create_reducer,
+  cont: cont_reducer
 })

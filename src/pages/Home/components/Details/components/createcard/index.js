@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Button,
+  Modal,
   message
 } from 'antd'
 
@@ -47,8 +48,6 @@ class CreateCard extends Component {
         <FormItem
           {...formItemLayout}
           label='Original No.'
-          hasFeedback
-          validateStatus="success"
         >
           <Input
             placeholder="Input Original No."
@@ -59,8 +58,6 @@ class CreateCard extends Component {
         <FormItem
           {...formItemLayout}
           label="Material No."
-          hasFeedback
-          validateStatus="warning"
         >
           <Input
             placeholder="Input Material No."
@@ -71,9 +68,6 @@ class CreateCard extends Component {
         <FormItem
           {...formItemLayout}
           label="Descriptions"
-          hasFeedback
-          validateStatus="error"
-          help="Should be combination of numbers & alphabets"
         >
           <Input
             placeholder="Descriptions here"
@@ -84,8 +78,6 @@ class CreateCard extends Component {
         <FormItem
           {...formItemLayout}
           label="Manufacturer"
-          hasFeedback
-          validateStatus="success"
         >
           <Input
             placeholder="Manufacturer name"

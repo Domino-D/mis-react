@@ -99,7 +99,7 @@ class List extends Component {
         <div style={TableStyle}>
           <Button type="primary" size="small" style={ButtonStyle} onClick={_clearFilters}>Clear all filters</Button>
         </div>
-        <Table bordered columns={columns} dataSource={homeList} onChange={this.handleChange} />
+        <Table bordered columns={columns} dataSource={homeList} onChange={this.handleChange} scroll={{ x: 1000 }} />
       </ContentList>
     );
   }

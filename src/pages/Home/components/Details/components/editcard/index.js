@@ -212,6 +212,7 @@ class EditCard extends Component {
           dataSource={this.props.data}
           columns={columns}
           rowClassName="editable-row"
+          scroll={{ x: 1000 }}
         />
         <DrawerCard />
       </Fragment>

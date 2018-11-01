@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import * as createAcion from './createaction'
 import { Menu, Icon } from 'antd'
 import { LogoTitle } from './style'
 
@@ -8,13 +9,13 @@ const SubMenu = Menu.SubMenu
 
 class Nav extends Component {
   render() {
-    const { defaultKey } = this.props
+    const { signOut } = this.props
 
     return (
       <div>
         <LogoTitle>MIS</LogoTitle>
         <Menu
-          defaultSelectedKeys={defaultKey}
+          defaultSelectedKeys={[]}
           mode="inline"
         >
           <Menu.Item key="0">
@@ -37,7 +38,7 @@ class Nav extends Component {
           </Menu.Item>
           <SubMenu key="3" title={<span><Icon type="user" /><span>User</span></span>}>
             <Menu.Item key="4">
-              <Link to="/">
+              <Link to="/" onClick={signOut}>
                 <Icon type="logout" />
                 <span>Logout</span>
               </Link>
@@ -49,8 +50,10 @@ class Nav extends Component {
   }
 }
 
-const mapState = (state) => ({
-  defaultKey: state.nav.defaultKey
+const mapDispatch = (dispatch) => ({
+  signOut() {
+    dispatch(createAcion.signOut())
+  }
 })
 
-export default connect(mapState, null)(Nav)
+export default connect(null, mapDispatch)(Nav)

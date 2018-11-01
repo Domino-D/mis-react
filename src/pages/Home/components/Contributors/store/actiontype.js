@@ -1,3 +1,5 @@
 export const LOAD_USER_LIST = 'load_user_list'
-export const CREATE_NEW_ADMIN = 'create_new_admin'
-export const DELETE_ADMIN = 'delete_admin'
+export const HANDLE_EMAIL_CHANGE = 'handle_email_change'
+export const HANDLE_PASSWORD_CHANGE = 'handle_password_change'
+export const RESET_NEW_ADMIN = 'reset_new_admin'
+export const SET_ERROR_MSG = 'set_error_msg'

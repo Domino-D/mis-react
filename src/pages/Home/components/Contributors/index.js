@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createAction as navCreateAction } from '../../../../common/Navbar/store'
 import * as createAction from './store/createaction'
 import {
   Collapse,
@@ -10,7 +9,8 @@ import {
   Avatar,
   Form,
   Input,
-  Button
+  Button,
+  message
 } from 'antd'
 
 const Panel = Collapse.Panel
@@ -25,7 +25,17 @@ const CardStyle = {
 
 class Cont extends Component {
   render() {
-    const { authority, userList } = this.props
+    const {
+      authority,
+      userList,
+      newUser,
+      emailChange,
+      passwordChange,
+      createNewAdmin,
+      debounce,
+      deleteAdmin,
+      checkDuplication
+    } = this.props
 
     return (
       <Collapse bordered={false} defaultActiveKey={['1']}>
@@ -33,7 +43,7 @@ class Cont extends Component {
           {userList[0] ? userList.map((item) => (
             <Card
               style={CardStyle}
-              actions={[<Icon type="ellipsis" />, <Icon type="delete" />]}
+              actions={[<Icon type="ellipsis" />, <Icon type="delete" onClick={deleteAdmin(item.id)}/>]}
             >
               <Skeleton loading={false} active>
                 <Meta
@@ -55,20 +65,20 @@ class Cont extends Component {
               </Card>
             )}
         </Panel>
-        {true ? <Panel header={<strong>New Admin SignUp</strong>} key="2">
+        {authority ? <Panel header={<strong>New Admin SignUp</strong>} key="2">
           <Form layout="inline">
             <FormItem
-              label="Field A"
+              label={<strong>Email </strong>}
             >
-              <Input placeholder="input placeholder" />
+              <Input placeholder="Input Email" type="email" onBlur={(e) => checkDuplication(e, userList)} onChange={(e) => emailChange(e)} value={newUser.email} required />
             </FormItem>
             <FormItem
-              label="Field B"
+              label={<strong>Password </strong>}
             >
-              <Input placeholder="input placeholder" />
+              <Input placeholder="Input Password" type="password" onChange={(e) => passwordChange(e)} value={newUser.pwd} required />
             </FormItem>
             <FormItem>
-              <Button type="primary">Submit</Button>
+              <Button type="primary" onClick={debounce(createNewAdmin, newUser)}>Submit</Button>
             </FormItem>
           </Form>
         </Panel> : null}
@@ -77,29 +87,64 @@ class Cont extends Component {
   }
 
   componentDidMount() {
-    const { changeDefaultKey, preloadUserList } = this.props
-    changeDefaultKey()
+    const { errorMsg, preloadUserList } = this.props
     preloadUserList()
+    if(errorMsg) message.warning(errorMsg)
   }
 
-  componentWillUpdate() {
-    const { changeDefaultKey } = this.props
-    changeDefaultKey()
+  componentDidUpdate() {
+    const { errorMsg } = this.props
+    if (errorMsg) message.warning(errorMsg)
   }
 }
 
 const mapState = (state) => ({
   authority: state.home.authority,
-  userList: state.cont.userList
+  userList: state.cont.userList,
+  newUser: state.cont.newUser,
+  errorMsg: state.cont.errorMsg
 })
 
 const mapDispatch = (dispatch) => ({
-  changeDefaultKey() {
-    dispatch(navCreateAction.changeDefaultKey(["2"]))
-  },
-
   preloadUserList() {
     dispatch(createAction.preloadUserList())
+  },
+
+  emailChange(e) {
+    const email = e.target.value
+    dispatch(createAction.emailChange(email))
+  },
+
+  passwordChange(e) {
+    const pwd = e.target.value
+    dispatch(createAction.passwordChange(pwd))
+  },
+
+  createNewAdmin(data) {
+    dispatch(createAction.preCreateNewAdmin(data))
+  },
+
+  deleteAdmin(_id) {
+    dispatch(createAction.deleteAdmin())
+  },
+
+  checkDuplication(e, list) {
+    const value = e.target.value
+    for (const item of list) {
+      if (item.email === value) {
+        message.warning('New Admin Email existed.')
+      }
+    }
+  },
+
+  debounce(func, data) {
+    let timer = null
+    return function () {
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        func.apply(this, [data])
+      }, 500)
+    }
   }
 })
 
